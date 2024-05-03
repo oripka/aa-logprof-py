@@ -7,6 +7,7 @@ from collections import OrderedDict, defaultdict, Counter
 parser = argparse.ArgumentParser(description="Generate AppArmor profiles from audit logs.")
 parser.add_argument('input_log', help='The input audit log file.')
 parser.add_argument('output_profile', help='The output AppArmor profile filename.')
+
 args = parser.parse_args()
 
 import re
@@ -63,7 +64,7 @@ def filter_paths(profile_content, n=''):
         '/usr/local/lib/php': '    #include <abstractions/php>\n',
         '/usr/local/etc/php': '    #include <abstractions/php>\n',
         '/usr/lib/apache2':  '    #include <abstractions/apache2-common>\n',
-        '/etc/apache2':  '    #include <abstractions/apache2-common>\n',
+        '/etc/apache2':  '    #include <abstractions/apache2-common>\n'
     }
     
     # Initialize a set to track which replacements need to be added
