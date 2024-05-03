@@ -44,6 +44,14 @@ The script effectively handles audit logs from Docker containers, tracking subpr
      apparmor_parser -r -W example/smart_profile
      docker run --rm -it --security-opt apparmor=smart_profile wordpress
 
+![](./aa-logprof-py.png)
+
+## KEV List
+
+![](./kev.png)
+
+With the recent surge in command injections being exploited in the wild, like those highlighted in the latest vulnerability list by CISA, I felt compelled to contribute a solution.
+
 ## Note
 
 Ensure that the audit logs provided contain detailed information for accurate profile generation. Incomplete or non-detailed logs may result in less effective security profiles.
