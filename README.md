@@ -19,7 +19,7 @@ No installation is required. You only need to have Python and AppArmor on your s
 To use the script, you need to specify the input log file and the output profile file name as command line arguments.
 
 ```bash
-python3 apparmor_profile_generator.py example/audit.log example/smart_profile
+python3 aa-logprof.py example/audit.log example/smart_profile
 ```
 
 Afterward, you might want to clean up the profile a bit and summarize the paths. ChatGPT is here to help.
