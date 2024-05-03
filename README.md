@@ -44,7 +44,7 @@ The script effectively handles audit logs from Docker containers, tracking subpr
      apparmor_parser -r -W example/smart_profile
      docker run --rm -it --security-opt apparmor=smart_profile wordpress
 
-![](./aa-logprof-py.png)
+![](./aa-logprof-py-white.png)
 
 ## KEV List
 
