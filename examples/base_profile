@@ -1,0 +1,7 @@
+#include <tunables/global>
+
+profile base flags=(audit, attach_disconnected, mediate_deleted) {
+    file,
+    /var/lib/docker/* r,
+    deny ptrace (readby, tracedby),
+}

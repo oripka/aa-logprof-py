@@ -61,14 +61,15 @@ With the recent surge in command injections being exploited in the wild, like th
      aa-status
      echo "" > /var/log/audit/audit.log
 
-Base profile for auditing YOU need to create this (ensure you `audit` so you get logs)
+Load base profile:
 
-     apparmor_parser -r wordpress
+     cp examples/base_profile /etc/apparmor.d/base_profile
+     apparmor_parser -r -W /etc/apparmor.d/base_profile
+     aa-complain /etc/apparmor.d/base_profile
 
-Start your container YOU need to create a `docker-compose.yml` for this
+Start your container
 
-     docker compose up wordpress
-
+     docker run --name wordpress -p 8080:80 -d --security-opt apparmor=base_profile wordpress
 
 ## Note
 
