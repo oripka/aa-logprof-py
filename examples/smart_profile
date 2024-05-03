@@ -1,0 +1,197 @@
+#include <tunables/global>
+profile base flags=(attach_disconnected, mediate_deleted) {
+  #include <abstractions/base>
+  profile wordpress flags=(enforce) {
+    /usr/local/bin/docker-entrypoint.sh Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh flags=(enforce) {
+    #include <abstractions/base>
+    /usr/bin/env r,
+    /usr/bin/bash Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash flags=(enforce) {
+    #include <abstractions/base>
+    /usr/local/bin/apache2-foreground Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground,
+    /usr/bin/bash r,
+    /usr/local/bin/docker-entrypoint.sh r,
+    /dev/tty wr,
+    /etc/nsswitch.conf r,
+    /etc/passwd r,
+    /usr/bin/id Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/bin/id,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/bin/id flags=(enforce) {
+    #include <abstractions/base>
+    /usr/bin/id r,
+    /proc/filesystems r,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground flags=(enforce) {
+    #include <abstractions/base>
+    #include <abstractions/apache2-common>
+    /usr/bin/rm Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/bin/rm,
+    /usr/local/bin/apache2-foreground r,
+    /usr/bin/dirname Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/bin/dirname,
+    /usr/bin/bash r,
+    /dev/tty wr,
+    /etc/nsswitch.conf r,
+    /etc/passwd r,
+    /usr/sbin/apache2 Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/sbin/apache2,
+    /usr/bin/mkdir Cx -> wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/bin/mkdir,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/bin/dirname flags=(enforce) {
+    #include <abstractions/base>
+    /usr/bin/dirname r,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/bin/mkdir flags=(enforce) {
+    #include <abstractions/base>
+    /proc/filesystems r,
+    /usr/bin/mkdir r,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/bin/rm flags=(enforce) {
+    #include <abstractions/base>
+    /usr/bin/rm r,
+  }
+
+  profile wordpress//null-/usr/local/bin/docker-entrypoint.sh//null-/usr/bin/bash//null-/usr/local/bin/apache2-foreground//null-/usr/sbin/apache2 flags=(enforce) {
+    #include <abstractions/php>
+    #include <abstractions/base>
+    #include <abstractions/apache2-common>
+    capability "setgid",
+    capability "kill",
+    /var/www/html/wp-includes/l10n/class-wp-translation-controller.php r,
+    /var/www/html/wp-includes/class-wp-paused-extensions-storage.php r,
+    /var/www/html/wp-includes/class-wp-recovery-mode-cookie-service.php r,
+    /var/www/html/wp-includes/meta.php r,
+    / wr,
+    /run/apache2/apache2.pid.M1Xjlg c,
+    /var/www/html/wp-includes/compat.php r,
+    /var/www/html/wp-blog-header.php r,
+    /etc/hosts r,
+    /etc/ssl/openssl.cnf r,
+    /var/www/html/wp-includes/class-wp-locale-switcher.php r,
+    /var/www/html/wp-includes/class-wp-error.php r,
+    /var/www/html/wp-load.php r,
+    /etc/gai.conf r,
+    /etc/ImageMagick-6/policy.xml r,
+    /etc/host.conf r,
+    /etc/ImageMagick-6/log.xml r,
+    /var/www/html/wp-includes/class-wp-fatal-error-handler.php r,
+    /tmp/.ZendSem.XyYGfa d,
+    /var/www/html/wp-includes/class-wpdb.php r,
+    /proc/sys/kernel/ngroups_max r,
+    /var/www/html/wp-includes/plugin.php r,
+    /var/www/html/wp-includes/class-wp-list-util.php r,
+    /var/www/html/wp-includes/pomo/entry.php r,
+    /etc/resolv.conf r,
+    /var/www/html/wp-includes/l10n.php r,
+    /var/www/html/wp-includes/l10n/class-wp-translation-file-php.php r,
+    /var/www/html/wp-includes/pomo/mo.php r,
+    /etc/group r,
+    /var/www/html/wp-includes/version.php r,
+    /tmp/.ZendSem.XyYGfa wrc,
+    /proc/1/maps r,
+    /var/www/html/wp-includes/class-wp-recovery-mode-email-service.php r,
+    /var/www/html/wp-includes/load.php r,
+    /var/www/html/wp-includes/class-wp-matchesmapregex.php r,
+    /usr/sbin/apache2 r,
+    /var/www/html/wp-includes/l10n/class-wp-translation-file-mo.php r,
+    /var/www/html/wp-includes/class-wp-hook.php r,
+    /var/www/html/wp-includes/formatting.php r,
+    /var/log/apache2/error.log c,
+    /var/www/html/wp-includes/class-wp.php r,
+    /var/log/apache2/other_vhosts_access.log c,
+    /var/www/html/wp-config.php r,
+    /etc/nsswitch.conf r,
+    /var/www/html/wp-includes/class-wp-textdomain-registry.php r,
+    /tmp/.ZendSem.XyYGfa c,
+    /tmp/.ZendSem.XyYGfa w,
+    /usr/lib/locale/C.utf8/LC_CTYPE r,
+    /var/www/html/wp-includes/pomo/streams.php r,
+    /var/www/html/wp-includes/l10n/class-wp-translations.php r,
+    /var/www/html/wp-includes/functions.php r,
+    /run/apache2/apache2.pid d,
+    /var/www/html/wp-settings.php r,
+    /var/www/html/wp-includes/class-wp-recovery-mode-key-service.php r,
+    /var/www/html/wp-includes/option.php r,
+    /tmp/.ZendSem.XyYGfa wk,
+    /run/apache2/apache2.pid.M1Xjlg w,
+    /var/www/html/.htaccess r,
+    /run/apache2/apache2.pid.M1Xjlg wrd,
+    /var/www/html/wp-includes/class-wp-locale.php r,
+    /etc/passwd r,
+    /var/www/html/wp-includes/pomo/plural-forms.php r,
+    /var/www/html/wp-includes/error-protection.php r,
+    /var/www/html/wp-includes/class-wp-recovery-mode-link-service.php r,
+    /run/apache2/apache2.pid.M1Xjlg wrc,
+    /usr/share/zoneinfo/Etc/UTC r,
+    /sys/devices/system/cpu/possible r,
+    /var/www/html/wp-includes/class-wp-metadata-lazyloader.php r,
+    /var/www/html/wp-includes/default-constants.php r,
+    /var/www/html/wp-includes/l10n/class-wp-translation-file.php r,
+    /run/apache2/apache2.pid wc,
+    /var/www/html/wp-includes/pomo/translations.php r,
+    /etc/mime.types r,
+    /var/www/html/index.php r,
+    /var/www/html/wp-includes/class-wp-meta-query.php r,
+    /var/www/html/wp-includes/class-wp-recovery-mode.php r,
+  }
+
+  profile wordpress//null-/usr/sbin/service//null-/usr/bin/env//null-/etc/init.d/fail2ban//null-/usr/sbin/start-stop-daemon//null-/usr/bin/fail2ban-client flags=(enforce) {
+    #include <abstractions/python>
+    #include <abstractions/base>
+    /etc/fail2ban/jail.d/ r,
+    /etc/fail2ban/paths-common.conf r,
+    /etc/fail2ban/fail2ban.conf r,
+    /etc/fail2ban/jail.local r,
+    /etc/fail2ban/action.d/nftables.conf r,
+    /etc/fail2ban/jail.conf r,
+    /etc/fail2ban/filter.d/apache-errors.conf r,
+    /etc/fail2ban/jail.d/defaults-debian.conf r,
+    /etc/fail2ban/action.d/nftables-multiport.conf r,
+    /etc/fail2ban/filter.d/apache-nomercy.conf r,
+    /etc/fail2ban/paths-debian.conf r,
+    /usr/bin/fail2ban-server Cx -> wordpress//null-/usr/sbin/service//null-/usr/bin/env//null-/etc/init.d/fail2ban//null-/usr/sbin/start-stop-daemon//null-/usr/bin/fail2ban-client//null-/usr/bin/fail2ban-server,
+    /etc/fail2ban/fail2ban.d/ r,
+    /etc/fail2ban/filter.d/wordpress-bruteforce.conf r,
+  }
+
+  profile wordpress//null-/usr/sbin/service//null-/usr/bin/env//null-/etc/init.d/fail2ban//null-/usr/sbin/start-stop-daemon//null-/usr/bin/fail2ban-client//null-/usr/bin/fail2ban-server flags=(enforce) {
+    #include <abstractions/python>
+    #include <abstractions/base>
+    /dev/urandom r,
+    /dev/null wr,
+    /usr/bin/ r,
+    /dev/null r,
+    /usr/lib/locale/C.utf8/LC_CTYPE r,
+    /run/fail2ban/fail2ban.sock c,
+    /var/lib/fail2ban/fail2ban.sqlite3 wrc,
+    /usr/local/lib/python3.11/dist-packages/ r,
+    /usr/share/zoneinfo/Etc/UTC r,
+    /etc/ssl/openssl.cnf r,
+    /var/log/fail2ban.log c,
+    /var/log/fail2ban.log w,
+    /var/log/fail2ban.log ac,
+    /run/fail2ban/fail2ban.pid c,
+    /usr/bin/python3.11 r,
+    /run/fail2ban/fail2ban.pid w,
+    /run/fail2ban/fail2ban.pid wc,
+    /usr/sbin/ldconfig Cx -> wordpress//null-/usr/sbin/service//null-/usr/bin/env//null-/etc/init.d/fail2ban//null-/usr/sbin/start-stop-daemon//null-/usr/bin/fail2ban-client//null-/usr/bin/fail2ban-server//null-/usr/sbin/ldconfig,
+    /usr/bin/fail2ban-server r,
+    /proc/20/fd/ r,
+    /var/lib/fail2ban/fail2ban.sqlite3 k,
+    /dev/null w,
+  }
+
+  profile wordpress//null-/usr/sbin/service//null-/usr/bin/env//null-/etc/init.d/fail2ban//null-/usr/sbin/start-stop-daemon//null-/usr/bin/fail2ban-client//null-/usr/bin/fail2ban-server//null-/usr/sbin/ldconfig flags=(enforce) {
+    #include <abstractions/base>
+    /dev/null wr,
+    /usr/sbin/ldconfig r,
+  }
+
+}
