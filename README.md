@@ -13,13 +13,16 @@ This Python script automates the generation of AppArmor profiles from audit logs
 
 No installation is required. You only need to have Python and AppArmor on your system. You can run the script directly from the command line.
 
+
 ## Usage
 
 To use the script, you need to specify the input log file and the output profile file name as command line arguments.
 
 ```bash
-python3 apparmor_profile_generator.py input_log.log output_profile
+python3 apparmor_profile_generator.py example/audit.log example/smart_profile
 ```
+
+Afterward, you might want to clean up the profile a bit and summarize the paths. ChatGPT is here to help.
 
 ### Arguments
 
@@ -51,6 +54,21 @@ The script effectively handles audit logs from Docker containers, tracking subpr
 ![](./kev.png)
 
 With the recent surge in command injections being exploited in the wild, like those highlighted in the latest vulnerability list by CISA, I felt compelled to contribute a solution.
+
+## Auditing using Apparmor
+
+     apt install apparmor-utils auditd -y
+     aa-status
+     echo "" > /var/log/audit/audit.log
+
+Base profile for auditing YOU need to create this (ensure you `audit` so you get logs)
+
+     apparmor_parser -r wordpress
+
+Start your container YOU need to create a `docker-compose.yml` for this
+
+     docker compose up wordpress
+
 
 ## Note
 
