@@ -2,11 +2,11 @@
 
 ## Overview
 
-This Python script automates the generation of AppArmor profiles from audit logs, focusing on features not typically handled by the stock aa-logprof tool. Unlike aa-logprof, this script can process logs **detailing subprocess activities**, which is particularly useful for **constraining processes within Docker containers**. It extracts necessary security information from these logs and outputs a tailored AppArmor profile, enhancing system security by defining specific resource access permissions for applications. Importantly, **it confines subprocesses using AppArmor local profiles**, allowing for fine-grained control over application behavior.
+This Python script automates the generation of AppArmor profiles from audit logs, focusing on features not typically handled by the stock `aa-logprof` tool. Unlike `aa-logprof`, this script can process logs **detailing subprocess activities**, which is particularly useful for **constraining processes within Docker containers**. It extracts necessary security information from these logs and outputs a tailored AppArmor profile, enhancing system security by defining specific resource access permissions for applications. Importantly, **it confines subprocesses using AppArmor local profiles**, allowing for fine-grained control over application behavior.
 
 ## Prerequisites
 
-- Python 3.x  
+- Python 3.x
 - AppArmor utilities installed on your Linux distribution (`apparmor_parser`, `aa-status`, etc.)
 
 ## Installation
@@ -15,39 +15,38 @@ No installation is required other than having Python and AppArmor on your system
 
 ## Usage
 
-1. **Basic Usage**  
+1. **Basic Usage**
    Provide the input log file and the output profile file name as command-line arguments:
    ```bash
    python3 aa-logprof.py /path/to/audit.log /path/to/output.profile
    ```
 
-2. **Optional: Ignoring Directories**  
+2. **Optional: Ignoring Directories**
    If you have certain directories (e.g., Plex libraries) that produce a huge number of file paths, you can reduce noise by wildcarding them:
    ```bash
-   python3 aa-logprof.py --ignore-dirs /usr/lib/plex /var/lib/plex \
-       /path/to/audit.log /path/to/output.profile
+   python3 aa-logprof.py /path/to/audit.log /path/to/output.profile --ignore-dirs /usr/lib/plex /var/lib/plex
    ```
    - **What it does:** All file paths that begin with any directory listed under `--ignore-dirs` are collapsed into a single rule, for example `/usr/lib/plex/** r,` instead of hundreds of lines referencing individual files.
 
 ### Arguments
 
-- `input_log`: The path to the audit log file you want to process.
-- `output_profile`: The desired filename for the generated AppArmor profile.
-- `--ignore-dirs`: One or more directories that you’d like to wildcard in the profile. Any files accessed under these directories will be consolidated into a single rule.
+1. `input_log` (positional): The path to the audit log file you want to process.
+2. `output_profile` (positional): The desired filename for the generated AppArmor profile.
+3. `--ignore-dirs` (optional): One or more directories that you’d like to wildcard in the profile. Any files accessed under these directories will be consolidated into a single rule.
 
 ## How It Works
 
-1. **Parsing Logs**  
+1. **Parsing Logs**
    The script reads the provided audit log, identifying security-related entries such as capabilities and file access permissions.
 
-2. **Determining Executions**  
+2. **Determining Executions**
    It identifies execution transitions within the logs to handle profiles correctly when applications execute other binaries.
 
-3. **Filtering and Compiling Rules**  
-   - The script can **ignore or wildcard** common directories (using `--ignore-dirs`) to avoid bloating your profile.  
+3. **Filtering and Compiling Rules**
+   - The script can **ignore or wildcard** common directories (using `--ignore-dirs`) to avoid bloating your profile.
    - It also includes necessary AppArmor abstractions based on accessed resources (e.g., Python, Apache, PHP libraries).
 
-4. **Profile Generation**  
+4. **Profile Generation**
    Finally, it compiles all extracted data into a valid AppArmor profile and writes it to the specified output file.
 
 ## Output
@@ -100,3 +99,4 @@ docker run --name wordpress -p 8080:80 -d --security-opt apparmor=base_profile w
 - Ensure that the audit logs provided contain detailed information for accurate profile generation. Incomplete or non-detailed logs may result in less effective security profiles.
 - By default, the script handles **file access** and **capabilities**. If you need network rules or other advanced AppArmor constraints, you can extend the script to parse those events in the audit log.
 - Learn more about [Local Profiles](https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-apparmor-profiles.html#sec-apparmor-profiles-types-local).
+
