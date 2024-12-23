@@ -3,7 +3,10 @@ import re
 from collections import defaultdict
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Generate AppArmor profiles from audit logs.")
+    parser = argparse.ArgumentParser(
+        description="Generate AppArmor profiles from audit logs.",
+        usage="aa-logprof.py input_log output_profile [--ignore-dirs [IGNORE_DIRS ...]]"
+    )
     parser.add_argument('input_log', help='The input audit log file.')
     parser.add_argument('output_profile', help='The output AppArmor profile filename.')
     parser.add_argument('--ignore-dirs', nargs='*', default=[],
